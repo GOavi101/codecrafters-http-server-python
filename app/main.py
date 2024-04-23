@@ -17,8 +17,8 @@ def main():
         if str(path)=="/":
             client_socket.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
         elif "/echo/" in str(path):
-            msg=path.split("/")[-1]
-            response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\r\n{msg}"
+            msg=path.split("/echo/")[-1]
+            response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(msg)}\r\n\r\n{msg}"
             client_socket.sendall(response.encode())
         else:
             client_socket.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
