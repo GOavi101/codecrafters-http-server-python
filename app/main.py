@@ -8,13 +8,14 @@ def main():
     
     while True:
         # receive data stream. it won't accept data packet greater than 1024 bytes
-        data = client_socket.recv(1024).decode()
+        data = client_socket.recv(4096).decode()
         if not data:
             # if data is not received break
             break
-        output="HTTP/1.1 200 OK\r\n\r\n"
-        client_socket.send(output)
+        output=b"HTTP/1.1 200 OK\r\n\r\n"
+        client_socket.sendall(output)
     client_socket.close()  # close the connection
+    server_socket.close()
         
 
 
