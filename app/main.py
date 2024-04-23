@@ -15,8 +15,10 @@ def main():
         data_list=data.split("\r\n")
         path=data_list[0].split(" ")[1]
         print(str(path))
-        if str(path)=="/":
-            client_socket.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
+        if "/echo/" in str(path):
+            msg=path.split("/")[-1]
+            response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\r\n{msg}"
+            client_socket.sendall(response.encode())
         else:
             client_socket.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
     client_socket.close()  # close the connection
