@@ -1,9 +1,8 @@
-# Uncomment this to pass the first stage
 import socket
 
 
 def main():
-    server_socket = socket.create_server(("localhost", 4221), reuse_port=False)
+    server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
     client_socket, client_address =server_socket.accept() # wait for client
     
     while True:
@@ -14,8 +13,10 @@ def main():
             break
         data_list=data.split("\r\n")
         path=data_list[0].split(" ")[1]
-        print(str(path))
-        if "/echo/" in str(path):
+        
+        if str(path)=="/":
+            client_socket.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
+        elif "/echo/" in str(path):
             msg=path.split("/")[-1]
             response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\r\n{msg}"
             client_socket.sendall(response.encode())
