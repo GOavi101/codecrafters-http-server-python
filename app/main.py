@@ -26,10 +26,10 @@ def handle_client(client_socket,dir):
             file_path = dir+"/"+filename
     
             if os.path.exists(file_path):
-                with open(file_path, "rb") as f:
+                with open(file_path, "r") as f:
                     data = f.read()
-                contentLength = str(len(data))
-                response = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {contentLength}\r\n\r\n".encode()+data
+                contentLength = len(data)
+                response = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {contentLength}\r\n\r\n{data}".encode()
                 client_socket.sendall(response)
             else:
                 client_socket.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")                   
