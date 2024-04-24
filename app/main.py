@@ -29,8 +29,8 @@ def handle_client(client_socket,dir):
                 with open(file_path, "rb") as f:
                     data = f.read()
                 contentLength = str(len(data))
-                response = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {contentLength}\r\n\r\n"
-                client_socket.sendall(response.encode("utf-8")+data)
+                response = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {contentLength}\r\n\r\n".encode("utf-8")+data
+                client_socket.sendall(response)
             else:
                 client_socket.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")                   
         else:
