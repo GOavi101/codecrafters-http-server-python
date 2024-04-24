@@ -27,7 +27,7 @@ def handle_client(client_socket,dir):
     
             if os.path.exists(file_path):
                 with open(file_path, "r") as f:
-                    print(data)
+                    data = f.read()
                 contentLength = str(len(data))
                 response = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {contentLength}\r\n\r\n{data}"
                 client_socket.sendall(response.encode("utf-8"))
