@@ -4,6 +4,7 @@ import sys
 import os
 
 def handle_client(client_socket,dir):
+    client_socket.settimeout(100)
     while True:
         data = client_socket.recv(4096).decode()
         if not data:
