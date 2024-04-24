@@ -13,7 +13,7 @@ def handle_client(client_socket,dir):
         path = data_list[0].split(" ")[1]
 
         if str(path) == "/":
-            client_socket.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
+            client_socket.sendall(b"HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n")
         elif "/echo/" in str(path):
             msg = path.split("/echo/")[-1]
             response = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(msg)}\r\n\r\n{msg}"
@@ -29,14 +29,14 @@ def handle_client(client_socket,dir):
             if os.path.exists(file_path):
                 with open(file_path, "rb") as f:
                     data = f.read()
-                contentLength = len(data)
-                response = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {contentLength}\r\n\r\n".encode()
-                client_socket.sendall(response)
-                client_socket.sendall(data)
+                    contentLength = len(data)
+                    response = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {contentLength}\r\n\r\n"
+                    client_socket.sendall(response.encode())
+                    client_socket.sendall(data)
             else:
-                client_socket.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")                   
+                client_socket.sendall(b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n")                   
         else:
-            client_socket.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
+            client_socket.sendall(b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n")
     client_socket.close()
 
 def main():
