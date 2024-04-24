@@ -23,7 +23,7 @@ def handle_client(client_socket,dir):
             client_socket.sendall(response.encode())
         elif "/files/" in str(path):
             filename = path.split("/files/")[-1]
-            file_path = os.path.join(dir, filename)
+            file_path = dir+filename
     
             if os.path.exists(file_path):
                 with open(file_path, "rb") as f:
