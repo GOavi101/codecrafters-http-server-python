@@ -38,7 +38,7 @@ def handle_client(client_socket,dir):
 
 def main():
     server_socket = socket.create_server(("localhost", 4221), reuse_port=False)
-    if sys.argv[1] == "--directory":
+    if len(sys.argv)>1:
         dir=sys.argv[2]
         while True:
             client_socket, _ = server_socket.accept()
