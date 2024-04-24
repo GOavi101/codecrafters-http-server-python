@@ -40,17 +40,14 @@ def handle_client(client_socket,dir):
 
 def main():
     server_socket = socket.create_server(("localhost", 4221), reuse_port=False)
-    if len(sys.argv)>1:
-        dir=sys.argv[2]
-        while True:
-            client_socket, _ = server_socket.accept()
+    while True:
+        client_socket, _ = server_socket.accept()
+        if len(sys.argv)>1:
+            dir=sys.argv[2]
             client_handler = threading.Thread(target=handle_client, args=(client_socket,dir,))
-            client_handler.start()
-    else:
-        while True:
-            client_socket, _ = server_socket.accept()
-            client_handler = threading.Thread(target=handle_client, args=(client_socket,None,))
-            client_handler.start()
+        else:
+            client_handler = threading.Thread(target=handle_client, args=(client_socket,None,))    
+        client_handler.start()
 
 if __name__ == "__main__":
     main()
