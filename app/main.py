@@ -41,7 +41,7 @@ def handle_client(client_socket,dir):
             filename = path.split("/files/")[-1]
             file_path = dir+"/"+filename
             if os.path.exists(dir):
-                with open(filename, "w") as f:
+                with open(file_path, "w") as f:
                     f.write(str(body))
                 client_socket.sendall(b"HTTP/1.1 201 Created\r\nContent-Length: 0\r\n\r\n")
             else:
