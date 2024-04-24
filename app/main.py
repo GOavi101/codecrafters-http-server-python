@@ -37,13 +37,18 @@ def handle_client(client_socket,dir):
     client_socket.close()
 
 def main():
+    server_socket = socket.create_server(("localhost", 4221), reuse_port=False)
     if sys.argv[0] == "--directory":
         dir=sys.argv[1]
-    server_socket = socket.create_server(("localhost", 4221), reuse_port=False)
-    while True:
-        client_socket, _ = server_socket.accept()
-        client_handler = threading.Thread(target=handle_client, args=(client_socket,dir,))
-        client_handler.start()
+        while True:
+            client_socket, _ = server_socket.accept()
+            client_handler = threading.Thread(target=handle_client, args=(client_socket,dir,))
+            client_handler.start()
+    else:
+        while True:
+            client_socket, _ = server_socket.accept()
+            client_handler = threading.Thread(target=handle_client, args=(client_socket,None,))
+            client_handler.start()
 
 if __name__ == "__main__":
     main()
