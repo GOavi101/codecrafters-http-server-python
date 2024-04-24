@@ -43,7 +43,7 @@ def handle_client(client_socket,dir):
             if os.path.exists(dir):
                 with open(filename, "w") as f:
                     f.write(str(body))
-                client_socket.sendall(b"HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n")
+                client_socket.sendall(b"HTTP/1.1 201 Created\r\nContent-Length: 0\r\n\r\n")
             else:
                 client_socket.sendall(b"HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n")                
         else:
