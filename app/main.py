@@ -23,16 +23,16 @@ def handle_client(client_socket,dir):
             client_socket.sendall(response.encode())
         elif "/files/" in str(path):
             filename = path.split("/files/")[-1]
-            file_path = dir+filename
+            file_path = dir+"/"+filename
     
             if os.path.exists(file_path):
-                with open(file_path, "rb") as f:
-                    data = f.read()
-                contentLength = str(len(data)).encode("ascii")
-                response = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {contentLength}\r\n\r\n".encode() + data
-                client_socket.sendall(response)
+                with open(file_path, "r") as f:
+                    print(data)
+                contentLength = str(len(data))
+                response = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {contentLength}\r\n\r\n{data}"
+                client_socket.sendall(response.encode("utf-8"))
             else:
-                client_socket.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")                
+                client_socket.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")                   
         else:
             client_socket.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
     client_socket.close()
